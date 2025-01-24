@@ -1,0 +1,33 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+allprojects {
+    repositories {
+        google() // Ensure this is present
+        mavenCentral() // Ensure this is present
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+// Add this to include the Google Services plugin
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Add the Google Services plugin for Firebase
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
+}
+
+// Clean task
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
